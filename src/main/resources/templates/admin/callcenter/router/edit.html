@@ -1,0 +1,23 @@
+<div class="uk-layui-form">
+    <form class="layui-form uk-form" action="/admin/callcenter/router/update.html" data-toggle="ajax-form" data-inner="#callCenterContent">
+    	<input type="hidden" name="hostid" value="${pbxHost.id!''}">
+    	<input type="hidden" name="id" value="${routerRules.id!''}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" value="${routerRules.name!''}" required lay-verify="required" placeholder="请输入路由规则名称" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+            	<font color="red">*</font> 
+            	路由规则名称
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  form.render();
+});
+</script>

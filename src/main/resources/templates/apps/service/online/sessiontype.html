@@ -1,0 +1,143 @@
+<div class="uk-layui-form">
+	<form class="layui-form uk-form" action="/service/sessiontype/save.html" data-toggle="ajax-form" data-callback="updateType(data)" data-close="true">
+		<input type="hidden" name="userid" value="${userid}">
+		<input type="hidden" name="agentservice" value="${agentservice}">
+		<input type="hidden" name="channel" value="${channel}">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">服务分类：</label>
+				<div class="layui-input-inline" style="position: relative;">
+					<input type="hidden" id="parent" name="sesid" value="<#if sesid??>${sesid}<#else>0</#if>">
+					<input type="text" name="parentname" id="parentname" required value="<#if sesTemp??>${sesTemp.name}<#else>服务分类</#if>" lay-verify="required" autocomplete="off" readOnly="readonly" onClick="showMenu();"
+						class="layui-input">
+					<i class="layui-icon" style="position: absolute;right: 3px;top: 6px;font-size: 25px;${systemConfig.color!'color:#0096C4;'}" onClick="showMenu()">&#xe631;</i>
+					<div id="menuContent" style="display:none; position: absolute;z-index:10000;width: 218px;" class="ukefu-ztree">
+						<ul id="organTree" class="ztree" style="width:208px;"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-button">
+			<div class="layui-button-block">
+				<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+
+	
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  form.render(); //更新全部
+  form.on("switch(area)",function(data){
+  	if(data.elem.checked){
+  		$('#area').show();
+  	}else{
+  		$('#area').hide();
+  	}
+  }) ;
+});
+</script>
+<SCRIPT type="text/javascript">
+	var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			onClick: onClick,
+			beforeClick: beforeClick
+		}
+	};
+	
+	function beforeClick(e,treeId, treeNode) {
+		var zTree = $.fn.zTree.getZTreeObj("organTree")
+		nodes = zTree.getSelectedNodes();
+		var allow = true , lastnode ;
+		e = e||window.event;
+		for (var i=0, l=nodes.length; i<l; i++) {
+			lastnode = nodes[i].type ;
+			if(nodes[i].organ && (nodes.length >= 1 && (e.ctrlKey || e.shiftKey))){
+				allow = false ; break ;
+			}
+		}
+		if(lastnode != treeNode.type && (e.ctrlKey || e.shiftKey)){
+			allow = false ;
+		}
+		
+		if (allow == false) {
+			top.layer.alert("组织机构不能点选多个上级机构，也不能同时选择地区和机构", {icon: 3});
+			return false;
+		} else {
+			return true;
+			
+		}
+	}
+	
+	function onClick(e, treeId, treeNode) {
+		var zTree = $.fn.zTree.getZTreeObj("organTree"),
+		nodes = zTree.getSelectedNodes(),
+		v = "" , value = "";
+		e = e||window.event;
+		nodes.sort(function compare(a,b){return a.id-b.id;});
+		for (var i=0, l=nodes.length; i<l; i++) {
+			v += nodes[i].name + ",";
+			if(value != ""){
+				value = value + "," ;
+			}
+			value = nodes[i].id ;
+		}
+		if (v.length > 0 ) v = v.substring(0, v.length-1);
+		if(treeNode.type == "area"){
+			$("#parentname").attr("value", v);
+			$("#parent").attr("value", "0");
+			$("#area").attr("value", value);
+		}else{
+			$("#parentname").attr("value", v);
+			$("#parent").attr("value", value);
+			$("#area").attr("value", "");
+		}
+		if (!e.ctrlKey && !e.shiftKey) {
+			hideMenu() ;
+		}
+	}
+
+
+	var zNodes =[
+	    { id:'0', pId:'00', name:"服务分类", open:true , sesid : true, type : "sesid"}
+	    <#if sesTypeList??>
+	    <#list sesTypeList as ses>
+	    ,{ id:'${ses.id!''}', pId:'${ses.parentid!'0'}', name:"${ses.name!''}", open:true , ses : true , type : "ses",  icon:"/images/dept.png" }
+	    </#list>
+	    </#if>
+	];
+	$(document).ready(function(){
+		var ztree = $.fn.zTree.init($("#organTree"), setting, zNodes);
+		<#if sesid??>
+		var node = ztree.getNodeByParam('id', '${sesid!''}');//获取id为1的点
+		ztree.selectNode(node);//选择点  
+		</#if>
+		
+	});
+	function showMenu() {
+		$("#menuContent").css({left:"0px", top:"38px"}).show();
+
+		$("body").bind("mousedown", onBodyDown);
+	}
+	function hideMenu() {
+		$("#menuContent").hide();
+		$("body").unbind("mousedown", onBodyDown);
+	}
+	function onBodyDown(e) {
+		e = e||window.event;
+		if (!(e.target.id == "menuBtn" || e.target.id == "menuContent" || $(e.target).parents("#menuContent").length>0)) {
+			hideMenu();
+		}
+	}
+
+</SCRIPT>

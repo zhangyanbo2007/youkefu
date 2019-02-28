@@ -1,0 +1,169 @@
+<dl class="layui-nav-child">
+	
+	<dd class="ukefu-left-menu layui-this">
+		<a href="javascript:void(0)" onclick="return false;" data-title="首页" data-href="/apps/content.html" class="iframe_btn" data-id="maincontent" data-type="tabChange">
+			<i class="kfont" style="top: 1px;">&#xe717;</i>
+		</a>
+	</dd>
+	<#if models?? && models["contacts"]?? && models["contacts"] == true>
+		<#if user?? && (user.roleAuthMap["A02"]??  || user.usertype == "0")>
+		<dd class="ukefu-left-menu" data-tooltip="全部联系人">
+			<a href="javascript:void(0)" data-title="全部联系人" data-href="/apps/contacts/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+			<i class="layui-icon"	style="position: relative;">&#xe612;</i>
+			</a>
+		</dd>
+		</#if>
+		<#if user?? && (user.roleAuthMap["A03"]?? || user.usertype == "0")>
+			<dd class="ukefu-left-menu" data-tooltip="全部客户">
+				<a href="javascript:void(0)" data-title="全部客户" data-href="/apps/customer/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="kfont" style="position: relative;">&#xe650;</i>
+				</a>
+			</dd>
+		</#if>
+	</#if>
+	
+	<#if models?? && models["workorders"]?? && models["workorders"] == true>
+		<#if user?? && (user.roleAuthMap["A04"]??  || user.usertype == "0")>
+			<dd class="ukefu-left-menu" data-tooltip="工单管理">
+				<a href="javascript:void(0)" data-title="工单管理" data-href="/apps/workorders/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="kfont" style="position: relative;">&#xe607;</i>
+				</a>
+			</dd>
+		</#if>
+		<!-- <#if user?? && (user.roleAuthMap["A05"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="业务流程">
+				<a href="javascript:void(0)" data-title="业务流程" data-href="/apps/bpm/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="kfont" style="position: relative;">&#xe636;</i>
+				</a>
+			</dd>
+		</#if> -->
+	</#if>
+	<#if models?? && models["ekm"]?? && models["ekm"] == true>
+		<#if user?? && (user.roleAuthMap["A14"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="知识库">
+				<a href="javascript:void(0)" data-title="知识库" data-href="/apps/ekm/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+					<i class="kfont" style="position: relative;">&#xe62a;</i>
+				</a>
+			</dd>
+		</#if>
+	<#else>
+		<#if user?? && (user.roleAuthMap["A14"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="知识库">
+				<a href="javascript:void(0)" data-title="知识库" data-href="/apps/topic.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+					<i class="kfont" style="position: relative;">&#xe62a;</i>
+				</a>
+			</dd>
+		</#if>
+	</#if>
+	<#if user?? &&( user.roleAuthMap["A06"]?? || user.usertype == "0")>
+		<dd class="ukefu-left-menu" data-tooltip="客服设置">
+			<a href="javascript:void(0)" data-title="客服设置" data-href="/setting/agent/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> <i class="layui-icon"
+				style="position: relative;">&#xe614;</i>
+			</a>
+		</dd>
+	</#if>
+	<#if user?? &&( user.roleAuthMap["A08"]?? || user.usertype == "0") >
+		<dd class="ukefu-left-menu" data-tooltip="会话历史">
+			<a href="javascript:void(0)" data-title="会话历史" data-href="/service/history/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> <i class="kfont"
+				style="position: relative;">&#xe7eb;</i>
+			</a>
+		</dd>
+	</#if>
+	<!-- 
+	<dd class="ukefu-left-menu" data-tooltip="会话质检">
+		<a href="javascript:void(0)" data-title="会话质检" data-href="/apps/quality/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+			<i class="kfont" style="position: relative;">&#xe644;</i>
+		</a>
+	</dd> 
+	 -->
+	
+	
+	<#if models?? && models["xiaoe"]?? && models["xiaoe"] == true>
+		<#if user?? &&( user.roleAuthMap["A09"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="智能机器人">
+				<a href="javascript:void(0)" data-title="智能机器人" data-href="/apps/xiaoe/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="kfont"	style="position: relative;">&#xe63a;</i>
+				</a>
+			</dd>
+		</#if>
+	</#if>
+	
+	<#if models?? && (models["sales"]?? && models["sales"] == true)>
+		<#if user?? &&( user.roleAuthMap["A11"]?? || user.usertype == "0") >
+		<dd class="ukefu-left-menu" data-tooltip="名单管理">
+			<a href="javascript:void(0)" data-title="名单管理" data-href="/apps/callout/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+			<i class="kfont"	style="position: relative;">&#xe68f;</i>
+			</a>
+		</dd>
+		</#if>
+	</#if>
+	
+	<#if models?? && models["sales"]?? && models["sales"] == true>
+		<#if user?? &&( user.roleAuthMap["A17"]?? || user.usertype == "0") >
+		<dd class="ukefu-left-menu" data-tooltip="外呼名单">
+			<a href="javascript:void(0)" data-title="外呼名单" data-href="/apps/callout/names/home.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+			<i class="kfont"	style="position: relative;">&#xe629;</i>
+			</a>
+		</dd>
+		</#if>
+	</#if>
+	<#if models?? && models["calloutai"]?? && models["calloutai"] == true>
+		<#if user?? &&( user.roleAuthMap["A16"]?? || user.usertype == "0") >
+		<dd class="ukefu-left-menu" data-tooltip="外呼机器人">
+			<a href="javascript:void(0)" data-title="外呼机器人" data-href="/apps/callout/ai/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+			<i class="kfont"	style="position: relative;">&#xe691;</i>
+			</a>
+		</dd>
+		</#if>
+	</#if>
+	<#if models?? && models["sales"] == true>
+		<#if user?? &&( user.roleAuthMap["A18"]?? || user.usertype == "0") >
+		<dd class="ukefu-left-menu" data-tooltip="预测式外呼">
+			<a href="javascript:void(0)" data-title="预测式外呼" data-href="/apps/callout/forecast/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+			<i class="kfont"	style="position: relative;">&#xe684;</i>
+			</a>
+		</dd>
+		</#if>
+	</#if>
+	<#if models?? && models["callcenter"]?? && models["callcenter"] == true>
+		<#if user?? && (user.roleAuthMap["A10"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="语音渠道">
+				<a href="javascript:void(0)" data-title="语音渠道" data-href="/apps/callcenter/service/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="kfont" style="position: relative;">&#xe625;</i>
+				</a>
+			</dd>
+			<!-- 
+			<#if user?? &&( user.roleAuthMap["A12"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="坐席监控">
+				<a href="javascript:void(0)" data-title="坐席监控" data-href="/apps/callcenter/service/monitor/allcall.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="layui-icon" style="position: relative;">&#xe629;</i>
+				</a>
+			</dd>
+			</#if>
+			 -->
+		</#if>
+	</#if>
+	<#if user?? && (user.roleAuthMap["A13"]?? || user.usertype == "0") >
+	<dd class="ukefu-left-menu" data-tooltip="数据报表">
+		<a href="javascript:void(0)" data-title="数据报表" data-href="/apps/view/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+		<i class="kfont"	style="position: relative;">&#xe6d6;</i>
+		</a>
+	</dd>
+	</#if>
+	<#if models?? && models["qc"]?? && models["qc"] == true>
+		<#if user?? && (user.roleAuthMap["A15"]?? || user.usertype == "0") >
+			<dd class="ukefu-left-menu" data-tooltip="质检系统">
+				<a href="javascript:void(0)" data-title="质检系统" data-href="/apps/qc/index.html" class="iframe_btn" data-id="maincontent" data-type="tabChange"> 
+				<i class="kfont"	style="position: relative;">&#xe656;</i>
+				</a>
+			</dd>
+		</#if>
+	</#if>
+</dl>
+<script language="javascript">
+	$(document).ready(function(){
+		$(".ukefu-left-menu").darkTooltip({
+	    	gravity: "west"
+	    });
+	});
+</script>

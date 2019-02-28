@@ -1,0 +1,32 @@
+<div class="uk-layui-form">
+	<form class="layui-form uk-form" action="/admin/metadata/properties/update/mul/save.html">
+		<#list porids as pro>
+			<input type="hidden" name="porids" value="${pro!''}">
+		</#list>
+			<input type="hidden" name="tbid" value="${tbid!''}">
+		
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">禁用导入导出：</label>
+				<div class="layui-input-inline" style="line-height: 25px;width:80px;">
+					<input type="checkbox" name="impfield" lay-skin="switch" value="1"  lay-text="开启|关闭">
+				</div>
+			</div>
+			
+		</div>
+		<div class="layui-form-button">
+			<div class="layui-button-block">
+				<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  form.render(); //更新全部
+});
+</script>

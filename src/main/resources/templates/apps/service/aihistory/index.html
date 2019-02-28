@@ -1,0 +1,275 @@
+<div class="layui-side layui-bg-black">
+	<div class="layui-side-scroll">
+		<#include "/apps/service/include/left.html">
+	</div>
+</div>
+<div class="layui-body">
+	<div class="layui-side-scroll">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="site-h1" style="border-top:1px solid #e6e6e6;">
+					机器人会话
+					<div class="layui-btn-group ukefu-btn-group" style="float: right;">
+						<button class="layui-btn layui-btn-sm dropdown-menu">
+							<i class="kfont">&#xe672;</i> 导出
+							<i class="layui-icon">&#xe625;</i>
+						</button>
+						<ul class="ukefu-dropdown-menu layui-anim layui-anim-upbit">
+							<li>
+								<a href="javascript:void(0)" id="batexp" title="导出选中结果" target="_blank">
+									<i class="kfont">&#xe672;</i>
+									导出选中会话
+								</a>
+							</li>
+							<li>
+								<a href="/service/aihistory/expsearch.html?1=1<#if username??>&username=${username!''}</#if><#if channel??>&channel=${channel}</#if><#if skill??>&skill=${skill!''}</#if><#if agent??>&agent=${agent!''}</#if><#if begin??>&begin=${begin}</#if><#if end??>&end=${end}</#if><#if sbegin??>&sbegin=${sbegin}</#if><#if send??>&send=${send}</#if>&subtype=${subtype}" title="导出联系人" target="_blank">
+									<i class="kfont">&#xe672;</i>
+									导出当前搜索会话
+								</a>
+							</li>
+							<li>
+								<a href="/service/aihistory/expall.html" title="导出对话记录" target="_blank">
+									<i class="kfont">&#xe672;</i>
+									导出全部会话
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" id="batexpchat" title="导出选中结果" target="_blank">
+									<i class="kfont">&#xe672;</i>
+									导出选中会话内容
+								</a>
+							</li>
+							<li>
+								<a href="/service/chatmessage/expsearch.html?1=1<#if username??>&username=${username!''}</#if><#if channel??>&channel=${channel}</#if><#if skill??>&skill=${skill!''}</#if><#if agent??>&agent=${agent!''}</#if><#if begin??>&begin=${begin}</#if><#if end??>&end=${end}</#if><#if sbegin??>&sbegin=${sbegin}</#if><#if send??>&send=${send}</#if>&subtype=${subtype}" title="导出联系人" target="_blank">
+									<i class="kfont">&#xe672;</i>
+									导出当前搜索会话内容
+								</a>
+							</li>
+							<li>
+								<a href="/service/chatmessage/expall.html" title="导出对话记录" target="_blank">
+									<i class="kfont">&#xe672;</i>
+									导出全部会话内容
+								</a>
+							</li>
+						</ul>
+					</div>
+					
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<form class="layui-form" name="search"	action="/service/aihistory/index.html" method="get" style="float: left;margin-right:5px;"  autocomplete="off">
+					<div class="ukefu-bt-text-content">
+						<table class="layui-table" lay-skin="nob">
+							<tbody>
+								<tr class="tdHasContorllor design-dropable-td">
+									<td width="1%" nowrap="nowrap">用户名：</td>
+									<td width="20%">
+										<input type="text" name="username" placeholder="请输入用户名" autocomplete="off" value="${username!''}" class="layui-input">
+									</td>
+									
+									<td width="1%" nowrap="nowrap">接入渠道：</td>
+									<td width="20%">
+										<input type="text" name="channel" placeholder="请输入接入渠道" autocomplete="off" value="${channel!''}" class="layui-input">
+									</td>
+									
+									<td width="1%" nowrap="nowrap">咨询时间：</td>
+									<td width="20%">
+										<input name="begin" class="layui-input" value="${begin!''}" readOnly="readOnly" placeholder="开始日期" value=""  data-datetype="laydate">
+									</td>
+									
+									<td width="1%" nowrap="nowrap" style="text-align: center;">～</td>
+									<td width="20%">
+										<input name="end" class="layui-input " value="${end!''}" readOnly="readOnly" placeholder="结束日期" value="" data-datetype="laydate">
+									</td>
+								</tr>
+								 
+								<tr class="tdHasContorllor design-dropable-td">
+									
+									<td width="1%" nowrap="nowrap">服务时间日期：</td>
+									<td width="20%">
+										<input name="sbegin" class="layui-input" value="${sbegin!''}" readOnly="readOnly" placeholder="开始日期" value=""  data-datetype="laydate">
+									</td>
+									
+									<td width="1%" nowrap="nowrap" style="text-align: center;">～</td>
+									<td width="20%">
+										<input name="send" class="layui-input" value="${send!''}" readOnly="readOnly" placeholder="结束日期"  data-datetype="laydate">
+									</td>
+								</tr>
+								
+								<tr class="tdHasContorllor design-dropable-td">
+									
+									<td width="1%" nowrap="nowrap">
+										<button class="layui-btn layui-btn-sm" type="submit">
+											<i class="layui-icon"></i> 
+											查询
+										</button>
+									</td>
+									
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="site-h1" style="border-top:1px solid #e6e6e6;">
+					历史会话<#if agentServiceList??>（${agentServiceList.totalElements}）</#if>
+					<span style="float:right;">
+						
+					</span>
+					
+				</h1>
+				<table class="layui-table" lay-skin="line">
+					<thead>
+						<tr class="design-sortable-tr">
+							<th>
+								<input type="checkbox" id="all" onclick="$('.ids').prop('checked' , $(this).prop('checked'));"/>
+							</th>
+							<th>用户名</th>
+							<th>接入渠道</th>
+							<th>服务坐席</th>
+							<th>咨询时间</th>
+							<th>服务时间</th>
+							<th>等待时长</th>
+							<th>服务时间</th>
+							<th>地域</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<#if agentServiceList?? && agentServiceList.content?? && agentServiceList.content?size gt 0>
+						<#list agentServiceList.content as agentService>
+						<tr class="tdHasContorllor design-dropable-td">
+							<td style="width:1%;">
+								<input type="checkbox" class="ids" name="ids" value="${agentService.id!''}"/>
+							</td>
+							<td class=" first_td_head">
+								<a href="/service/online/index.html?userid=${agentService.userid!''}&agentservice=${agentService.id!''}">
+								${agentService.username!''}
+								</a>
+							</td>
+							<td>
+								${agentService.channel!''}
+							</td>
+							<td>
+								${agentService.agentusername!''}
+							</td>
+							<td><#if agentService.logindate??>${agentService.logindate?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+							<td>
+								<#if agentService.servicetime??>
+								${agentService.servicetime?string('yyyy-MM-dd HH:mm:ss')}
+								</#if>
+							</td>
+							<td>
+								${(agentService.waittingtime/(1000*60*60))?string('00')}:${((agentService.waittingtime%(1000*60*60))/(1000*60))?string('00')}:${((agentService.waittingtime%(1000*60))/(1000))?string('00')}
+							</td>
+							
+							<td class="minSize ">
+								${(agentService.sessiontimes/(1000*60*60))?string('00')}:${((agentService.sessiontimes%(1000*60*60))/(1000*60))?string('00')}:${((agentService.sessiontimes%(1000*60))/(1000))?string('00')}
+							</td>
+							<td class=" ">${agentService.region!''}</td>
+						</tr>
+						</#list>
+						<#else>
+							<tr>
+								<td colspan="20" style="height:400px;">
+									<div class="ukefu-empty">
+										<i class="layui-icon">&#xe63a;</i>
+										<div style="">还没有历史会话</div>
+									</div>
+								</td>
+							</tr>
+						</#if>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+		<div class="row" style="padding:5px;">
+			<div class="col-lg-12" id="page" style="text-align:center;"></div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$('#batexp').click(function(){
+			var ids = "";
+			var num = 0 ;
+			$('.ids').each(function(){
+				if($(this).prop("checked")){
+					if(ids!=""){
+						ids += "&" ;
+					}
+					ids += "ids=" + $(this).val();
+					num++;
+				}
+			});
+			if(num>0){
+				$('#batexp').attr('href' , '/service/expids.html?'+ids)	;
+			}else{
+				top.layer.alert("请先选择需要导出的会话记录");
+				$('#batexp').attr("href" , "javascript:void(0)");
+			}
+			
+			
+		});
+		$('#batexpchat').click(function(){
+			var ids = "";
+			var num = 0 ;
+			$('.ids').each(function(){
+				if($(this).prop("checked")){
+					if(ids!=""){
+						ids += "&" ;
+					}
+					ids += "ids=" + $(this).val();
+					num++;
+				}
+			});
+			if(num>0){
+				$('#batexpchat').attr('href' , '/service/chatmessage/expids.html?'+ids)	;
+			}else{
+				top.layer.alert("请先选择需要导出的会话记录");
+				$('#batexpchat').attr("href" , "javascript:void(0)");
+			}
+			
+			
+		});
+		
+	});
+	layui.use('form', function(){
+	  var form = layui.form;
+	  form.render(); //更新全部
+	});
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+	});
+	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  
+		  laypage.render({
+				elem: 'page'
+				,pages: <#if agentServiceList??>${agentServiceList.totalPages}<#else>0</#if> //总页数
+				,curr:<#if agentServiceList??>${agentServiceList.number+1}<#else>0</#if>
+				,groups: 5 //连续显示分页数
+				,jump:function(data , first){
+					if(!first){
+						location.href = "/service/aihistory/index.html?p="+data.curr ;
+					}
+				}
+		   });
+		});
+	function deptorservice(data){
+		$('#allocation').html("");
+		if(data=="agentno"){
+			$("#allocation").append("<#if userlist?? ><#list userlist as user ><#if allocation??><option value=\"${user.id}\" selected>${user.uname}</option><#else><option value=\"${user.id}\">${user.uname}</option></#if> </#list> </#if>");
+		}else if(data=="skill"){
+			$("#allocation").append("<#if deptlist?? ><#list deptlist as dept ><#if allocation??><option value=\"${dept.id}\" selected>${dept.name}</option><#else><option value=\"${dept.id}\">${dept.name}</option> </#if> </#list> </#if>");
+		}
+	}
+
+</script>

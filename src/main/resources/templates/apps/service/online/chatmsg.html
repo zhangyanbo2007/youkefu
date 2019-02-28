@@ -1,0 +1,58 @@
+
+<div class="ukefu-chat-history">
+	<#if title??>
+	<#else>
+	<h1 class="site-h1" style="padding-bottom:0px;margin-bottom:0px;border-bottom:0px;">
+		<ul class="layui-tab-title">
+			<li class="layui-this" id="chat_his">对话内容</li>
+			<#if summaryList?? && summaryList.content?size gt 0>
+			<li id="summary">服务小结</li>
+			</#if>
+		</ul>
+	</h1>
+	</#if>
+	<div id="chat_msg_list" class="chat-message chat_msg_list">
+		<#if agentUserMessageList?? && agentUserMessageList.content??>
+			<#list agentUserMessageList.content?reverse as chatmessage>
+			<div class="clearfix chat-block">
+				<div class="<#if (chatmessage.userid?? && chatmessage.userid == user.id) || (chatmessage.calltype?? && chatmessage.calltype == 'out')>chat-right<#else>chat-left</#if>">
+					<img alt="" src="<#if chatmessage.userid?? && chatmessage.userid == user.id>/images/im/user.png<#else><#if curagentuser.headimgurl?? && curagentuser.headimgurl !=''>${curagentuser.headimgurl}<#else>/images/im/user.png</#if></#if>" style="width:45px;height:45px;" class="user-img">
+					<div class="chat-message">
+						<span class="user">${chatmessage.username!''}</span> 
+						<span class="time">${chatmessage.createtime!''}</span>
+					</div>
+					<div class="<#if (chatmessage.userid?? && chatmessage.userid == user.id) || (chatmessage.calltype?? && chatmessage.calltype == 'out')>chatting-right<#else>chatting-left</#if>">
+						<i class="userarrow"></i>
+						<div class="chat-content"><#include "/apps/agent/media/message.html"></div>
+					</div>
+				</div>
+			</div>
+			</#list>
+		<#elseif curagentuser??>
+			<#if curagentuser.status?? && curagentuser.status == "end">
+				<div class="clearfix chat-block connect-end" id="agentuser-curstatus">
+					<span class="connect-message">用户“${curagentuser.username!''}”已经离开</span>
+				</div>
+			<#else>
+				<div class="clearfix chat-block connect-begin" id="agentuser-curstatus">
+					<span class="connect-message">用户“${curagentuser.username!''}”开始对话</span>
+				</div>
+			</#if>
+		</#if>
+	</div>
+	<#if summaryList?? && summaryList.content?size gt 0>
+	<div class="box" id="summarys" style="display:none;">
+	        <#include "/apps/agent/summarylist.html">
+	</div>
+	</#if>	
+</div>
+<script language="javascript">
+	$('#chat_his').click(function(){
+		$('#summarys').hide();
+		$('#chat_msg_list').show();
+	})
+	$('#summary').click(function(){
+		$('#chat_msg_list').hide();
+		$('#summarys').show();
+	})
+</script>

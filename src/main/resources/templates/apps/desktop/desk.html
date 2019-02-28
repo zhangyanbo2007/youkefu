@@ -1,0 +1,147 @@
+<div class="layui-layout layui-layout-content" style="height: 100%;">
+	<div class="box default-box" style="height: 100%;">
+		<div class="box-header">
+			<h3 class="box-title">操作向导
+				<span style="float:right;">
+					<form class="layui-form layui-form-pane" action="">
+						<input type="checkbox" name="disabledesk" title="默认不显示操作引导页"
+							lay-filter="disabledesk" lay-skin="primary"
+						<#if user?? && user.disabledesk?? && user.disabledesk== true>checked="checked"</#if>
+						>
+					</form>
+				</span>			
+			</h3>
+		</div>
+		<div class="box-body ukefu-im-theme">
+			<div class="row">
+				<div class="col-lg-1">
+				</div>
+				<div class="col-lg-11">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 style="font-size:24px;padding-top:50px;">
+								${systemConfig.title!''}操作指南
+							</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="row" style="padding-top:10px;">
+								<div class="col-lg-12">
+									<h1 class="quick-title">
+										开始
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<ul class="quick-desk-item">
+										<li><a href="/admin/user/index.html">系统使用账号管理</a> <span class="quick-desk-tip">用户、角色、组织机构管理维护、授权管理</span></li>
+										<li><a href="/admin/organ/index.html">部门管理</a></li>
+										<#if models?? && models["weixin"]?? && models["weixin"] == true>
+										<li><a href="/admin/weixin/index.html">接入微信公众号</a></li>
+										</#if>
+										<#if models?? && models["callcenter"]?? && models["callcenter"] == true>
+										<li><a href="/admin/callcenter/index.html">接入语音平台</a></li>
+										</#if>
+									</ul>
+								</div>
+							</div>
+							
+							<div class="row" style="padding-top:10px;">
+								<div class="col-lg-12">
+									<h1 class="quick-title">
+										使用在线客服功能
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<ul class="quick-desk-item">
+										<li><a href="/admin/im/index.html">接入网站</a></li>
+										<li><a href="/admin/im/index.html">联系人管理</a></li>
+										<li><a href="/setting/quickreply/index.html">快捷回复维护</a></li>
+									</ul>
+								</div>
+							</div>
+							
+							<div class="row" style="padding-top:20px;">
+								<div class="col-lg-12">
+									<h1 class="quick-title">
+										业务管理
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<ul class="quick-desk-item">
+										<li><a href="/service/history/index.html">在线客服会话历史</a></li>
+										<li><a href="/service/comment/index.html">满意度评价</a></li>
+										<#if models?? && models["xiaoe"]?? && models["xiaoe"] == true>
+										<li><a href="/apps/xiaoe/index.html">客服对话机器人管理</a></li>
+										</#if>
+										<#if models?? && models["callcenter"]?? && models["callcenter"] == true>
+										<li><a href="/apps/callcenter/service/index.html">语音通话记录</a></li>
+										</#if>
+										<#if models?? && models["sales"]?? && models["sales"] == true>
+										<li><a href="/apps/callout/index.html">电销外呼名单管理</a></li>
+										</#if>
+										<#if models?? && models["calloutai"]?? && models["calloutai"] == true>
+										<li><a href="/apps/callout/ai/index.html">外呼机器人管理</a></li>
+										</#if>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="row" style="padding-top:10px;">
+								<div class="col-lg-12">
+									<h1 class="quick-title">
+										快速链接
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<ul class="quick-desk-link">
+										<li>
+											<a href="/admin/im/add.html" data-toggle="ajax" data-width="550" data-height="300" data-title="创建新网站">
+												创建网站
+												<p style="color:#aaaaaa;margin-top:5px;">渠道接入，创建一个WebIM或H5的接入网站，填写和配置接入信息，获得接入地址</p>
+											</a>
+										</li>
+										<li>
+											<a href="/admin/config/index.html">
+												系统设置
+												<p style="color:#aaaaaa;margin-top:5px;">系统全局配置信息，包括界面元素、标识信息的配置</p>
+											</a>
+										</li>
+										<li>
+											<a href="/admin/user/add.html" data-toggle="ajax" data-width="750" data-height="450" data-title="创建新用户">
+												新建用户
+												<p style="color:#aaaaaa;margin-top:5px;">新建一个系统用户，可以为用户分配多媒体坐席和呼叫中心权限</p>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script language="javascript">
+	layui.use('form', function(){
+		var form = layui.form;
+		form.render(); //更新全部
+		form.on("checkbox(disabledesk)" , function(data){
+			if(data.elem.checked == true){
+				loadURL("/apps/desk/disabledesk.html");	
+			}else{
+				loadURL("/apps/desk/enabledesk.html");
+			}
+		});
+	});
+</script>

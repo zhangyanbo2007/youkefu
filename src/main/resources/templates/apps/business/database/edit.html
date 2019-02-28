@@ -1,0 +1,105 @@
+<div class="uk-layui-form">
+	<form class="layui-form" action="/apps/database/update.html" method="post">
+		<input type="hidden" name="id" value="${database.id!''}">
+		<div class="layui-form-item" style="margin-top:10px;">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:150px;">数据源名称：</label>
+				<div class="layui-input-inline" style="width:320px;">
+					<input type="text" name="name" required lay-verify="required" autocomplete="off" value="${database.name!''}"
+						class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+	            	<font color="red">*</font> 
+	            </div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:150px;">类型：</label>
+				<div class="layui-input-inline" style="width:320px;">
+					<select name="databasetype">
+						<option value="mysql" <#if database.databasetype == 'mysql'>selected="selected"</#if>>MySQL</option>
+						<option value="oracle" <#if database.databasetype == 'oracle'>selected="selected"</#if>>Oracle</option>
+					</select>
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+	            	<font color="red">*</font> 
+	            </div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:150px;">访问账号：</label>
+				<div class="layui-input-inline" style="width:320px;">
+					<input type="text" name="account" required lay-verify="required" autocomplete="off" value="${database.account!''}"
+						class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+	            	<font color="red">*</font> 
+	            </div>
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:150px;">密码：</label>
+				<div class="layui-input-inline" style="width:320px;">
+					<input type="password" name="password" required lay-verify="required" autocomplete="off" value=""
+						class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+	            	<font color="red">*</font> 
+	            </div>
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:150px;">驱动接口：</label>
+				<div class="layui-input-inline" style="width:320px;">
+					<input type="text" name="driverclazz" required lay-verify="required" autocomplete="off" value="${database.driverclazz!''}"
+						class="layui-input">
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+	            	<font color="red">*</font> 
+	            </div>
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:150px;">链接地址：</label>
+				<div class="layui-input-inline" style="width:320px;">
+					<textarea name="databaseurl" required autocomplete="off" lay-verify="required"  style="height:80px;"
+						class="layui-input">${database.databaseurl!''}</textarea>
+				</div>
+				<div class="layui-form-mid layui-word-aux">
+	            	<font color="red">*</font> 
+	            </div>
+			</div>
+		</div>
+		<div class="layui-form-button">
+			<div class="layui-button-block">
+				<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	layui.use('form', function() {
+		var form = layui.form;
+		form.render(); //更新全部
+		form.on("checkbox(ssl)" , function(data){
+			if(data.elem.checked == true){
+				$('#sslport').show();		
+			}else{
+				$('#sslport').hide();
+				$("input[name=sslport]").val("");
+			}
+		});
+	});
+	layui.use('element', function(){
+		var element = layui.element;
+	});
+</script>

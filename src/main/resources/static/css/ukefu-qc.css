@@ -1,0 +1,35 @@
+.ukefu-qc-agent{
+	padding-right:0px !important;
+	overflow-y: hidden;
+	background-color:#e6e6e6 !important;
+}
+.ukefu-main-contacts{
+	height:100%;
+	background-color:#ffffff;
+}
+.ukefu-qc-top{
+	height: 240px;
+    width: 100%;
+    overflow: auto;
+}
+.ukefu-qc-bottom {
+    width: 100%;height: 280px;
+}
+.ukefu-qc-detail {
+   	width: 50%;
+   	position: absolute;
+    height: calc(100% - 240px);
+    bottom: 0px;
+    overflow: hidden;
+}
+.ukefu-qc-search {
+   	width: 50%;
+   	position: absolute;
+    height: calc(100% - 240px);
+    bottom: 0px;
+    overflow: hidden;
+    left: 643px;
+}
+.ukefu-qc-li{
+	    margin-top: 10px;
+}

@@ -1,0 +1,19 @@
+.autocomplate-list {
+    position:absolute;
+    background:#FFF;
+    border:1px solid #ddd;
+    width:100%;
+    box-sizing:border-box;
+    display:none;
+}
+.autocomplate-list li {
+    padding: 0 10px;
+    line-height: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.autocomplate-list li.active {
+    background:#2b83f9;
+    color:#FFF;
+}

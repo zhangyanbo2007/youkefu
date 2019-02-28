@@ -1,0 +1,95 @@
+<div class="row" style="height:100%;">
+    <div class="col-lg-12" style="border-right:1px solid #e6e6e6;padding-right:0px;">
+        <h1 class="site-h1" style="background-color:#FFFFFF;">路由规则设置
+        	<span style="float:right;">
+                <button class="layui-btn layui-btn-sm green" href="/admin/callcenter/router/code.html?hostid=${pbxHost.id!''}&id=${routerRules.id!''}" data-toggle="ajax" data-width="750" data-height="450" data-title="快速导入">快速导入</button>
+        	</span>
+        </h1>
+        <div class="row">
+            <div class="col-lg-12" style="padding-left:5px;">
+                <div class="layui-collapse" lay-filter="skillcollapse">
+                	
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">路由条件</h2>
+                        <div class="layui-colla-content layui-show" style="padding:0px;">
+                            <table class="layui-table" lay-skin="line" style="border-left:0px;">
+                                <colgroup>
+                                    <col width="30%">
+                                    <col width="20%">
+                                    <col width="1%">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                    <#if skillExtentionList??>
+                                        <#list skillExtentionList as skillExtention>
+                                        <#if skillExtention.skillid == skill.id>
+                                            <tr>
+                                                <td>${skillExtention.extention!''}</td>
+                                                <td>${skillExtention.createtime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                                                <td style="white-space:nowrap;" nowrap="nowrap">
+                                                    <a href="/admin/callcenter/skill/extention/delete.html?id=${skillExtention.id!''}&hostid=${pbxHost.id!''}" data-target="#callCenterContent" data-callback="loadURL" style="margin-left:10px;" data-toggle="tip" data-title="请确认是否将分机移除？">
+                                                        <i class="layui-icon" style="color:red;">&#x1006;</i>移除</a>
+                                                </td>
+                                            </tr>
+                                        </#if>
+                                        </#list>
+                                    </#if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <#if routerItems??>
+                    <#list routerItems as routeitem>
+                    <#if routeitem.child?? && routeitem.child == true>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">${routeitem.field!''} 
+                        	<span style="margin-left:50px;"> ${routeitem.expression!''}</span> 
+                        	<#if routeitem.onbreak??><span style="margin-left:50px;"> ${routeitem.onbreak!''}</span></#if>
+                        </h2>
+                        <div class="layui-colla-content layui-show" style="padding:0px;">
+                            <table class="layui-table" lay-skin="line" style="border-left:0px;">
+                                <colgroup>
+                                    <col width="5%">
+                                    <col width="90%">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+									<#list routerItems as action> 
+									<#if action.parentid == routeitem.id>
+									<tr>
+										<td>${action.action!''}</td>
+										<td>${action.data!''}</td>
+									</tr>
+									</#if> 
+									</#list>
+								</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </#if>
+                    </#list>
+                    </#if>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	layui.use('element', function() {
+		var element = layui.element;
+		element.render('collapse');
+
+		$(".opera-btn").click(
+				function() {
+					var obj = $(this).parents(".layui-colla-item").find(
+							".layui-colla-content");
+					if (obj.hasClass("layui-show")) {
+						obj.removeClass("layui-show");
+						element.render('collapse');
+					} else {
+						obj.addClass("layui-show");
+						element.render('collapse');
+					}
+				})
+	});
+</script>

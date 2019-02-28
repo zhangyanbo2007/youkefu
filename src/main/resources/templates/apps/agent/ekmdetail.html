@@ -1,0 +1,280 @@
+<div id="agentusers">
+	<div class="row">
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box">
+				<div class="box-title">
+					<h1 class="site-h1" style="background-color:#EEEEEE;">
+						知识信息
+					</h1>
+				</div>
+				<div class="box-body" style="padding:10px 10px;" id="ukefu_contacts_info">
+					<span style="font-size: 14px;padding: 0 0 11px 18px;color: rgba(35, 39, 50, 0.8);background: url(/images/circle.png) no-repeat left 8px;">评分：</span><div id="rate"></div>
+					<ul class="info-list">
+						<li>
+							部门：<#if organList??><#list organList as organ><#if organ.id == knowledge.organ>${organ.name!''}</#if></#list></#if>
+						</li>
+						<li>
+							类型：<#if knowledge.knowledgetype?? && knowledge.knowledgetype != ''>${uKeFuDic[knowledge.knowledgetype!''].name!''} <#else>未选择类型</#if>
+						</li>
+						<li>
+							被浏览：<#if knowtimes.viewtimes??>${knowtimes.viewtimes!''} 次</#if>
+						</li>
+						<li>
+							被收藏：<#if knowtimes.collectimes??>${knowtimes.collectimes!''} 次</#if>
+						</li>
+						<li>
+							被评论：<#if knowtimes.commentstimes??>${knowtimes.commentstimes!''} 次</#if>
+						</li>
+						<li>
+							所属知识库：<#if knowledge.knowbaseid?? && knowbaseList??><#list knowbaseList as kb><#if kb.id == knowledge.knowbaseid>${kb.name!''}</#if></#list></#if>
+						</li>
+						<li>
+							所属知识分类：<#if knowledge.knowledgetypeid?? && knowTypeList??><#list knowTypeList as kt><#if kt.id == knowledge.knowledgetypeid>${kt.name!''}</#if></#list></#if>
+						</li>
+						<li>
+							有效时间至：<#if knowledge.endtime??>${knowledge.endtime?string('yyyy-MM-dd HH:mm:ss')}<#else>永久有效</#if>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box">
+				<div class="box-title">
+					<h1 class="site-h1" style="background-color:#EEEEEE;">
+						知识标签
+					</h1>
+				</div>
+				<div class="box-body" style="padding:10px 10px;color:white;" id="ukefu_contacts_info">
+				<#if tagsList??>
+					<#list tagsList as tag>
+						<span class="ukef-tag"><a href="javacript:void(0);">${tag.tag!''}</a></span> 
+					</#list>
+				</#if>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="layui-body ukefu-chat-agent" id="ukefu-chat-agent" style="overflow: scroll;margin-left: 50px;">
+	<div class="row" style="padding:10px;background: #FFFFFF;">
+        <div class="col-lg-12" style="padding-left:0px;position: relative;">
+            <div class="ukefu-bt">
+                <div class="layui-icon ukewo-btn ukefu-content-ind" style="width: 40px;height: 40px;">
+                    <img src="/images/book.jpg" style="width:40px;"></div>
+                <div class="ukefu-bt-text" style="padding-top:5px;">
+                    <div class="ukefu-bt-text-title" style="font-weight:400;font-size:16px;"><#if knowledge??>${knowledge.title!''}</#if></div>
+                    <div class="ukefu-bt-text-content" style="">
+                        <span style="font-size:13px;color:#AAAAAA;">知识创建时间：<#if knowledge.createtime??>${knowledge.createtime?string("yyyy-MM-dd HH:mm:ss")}</#if></span>
+                       <!--  <span style="font-size:13px;color:#AAAAAA;margin-left:30px;">最后更新于：2018-08-01 09:07:39</span></div> -->
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="layui-tab col-lg-12" style="background: #FFFFFF;margin-top:0px;" >
+        <h1 class="site-h1 ukefu-tab" style="height:26px;">
+            <div class="ukefu-tab-title" style="margin-left:0px;">
+                <ul class="tab-title" id="knowledgeDetailsTab">
+                	<li class="layui-this"><a  href="/apps/ekm/pribase/detail.html?knowid=<#if knowledge??>${knowledge.id!''}</#if>" data-toggle="load" data-target="#knowledgeContent">知识详情</a></li>
+                </ul>
+            </div>
+        </h1>
+        <div id="knowledgeContent">
+        	<div class="layui-tab-content" style="height:100%;" >
+            <div class="layui-tab-item layui-show" >
+                <div style="background: #FFFFFF;">
+                    <div class="row" >
+                    
+                        <div class="col-lg-12">
+                        	<div class="layui-card">
+                                <div class="layui-card-header" style="line-height:30px;border-bottom: 1px solid #f6f6f6;font-size:16px;height: 30px;padding: 10px;">摘要</div>
+                            </div>
+                            <div style="border-right:1px solid #f6f6f6;">
+	                            <div class="layui-card">
+	                            
+	                                <div class="layui-card-body" style="line-height:30px;text-indent:2em;padding: 15px;background: #FFFFFF;font-size: 15px;">
+	                             	 ${knowledge.summary!''}</div>
+	                            </div>
+	                        
+	                            <div class="layui-card">
+	                                <div class="layui-card-header" style="line-height:30px;background: #FFFFFF;border-bottom: 1px solid #f6f6f6;font-size: 16px;height: 30px;padding: 10px;">正文</div>
+	                                <div class="layui-card-body" style="line-height:30px;text-indent:2em;padding: 15px;background: #FFFFFF;font-size: 15px;">
+	                                	${(knowledge.content!'')?no_esc}
+	                                </div>
+	                            </div>
+	                            <#assign files = 0> 
+								<#list attachmentFileList as attachmentFile>
+								<#if attachmentFile.dataid?? && attachmentFile.dataid == knowledge.id> 
+								<#assign files = files+1> 
+								</#if> 
+								</#list> 
+								<#if files gt 0>
+								<div class="layui-card">
+									<div class="layui-card-body" style="line-height:30px;padding: 15px;background: #FFFFFF;font-size: 15px;">
+										<i class="kfont" style="font-size:14px;" title="附件">&#xe61e;</i>共有${files}个附件:
+										<#list attachmentFileList as attachmentFile>
+										<#if attachmentFile.dataid?? && attachmentFile.dataid == knowledge.id>
+											<p>
+											<a href="/res/file.html?id=${attachmentFile.id!''}" target="_blank" title="${attachmentFile.title!''}">
+											<i class="kfont" style="font-size:14px;" title="附件">&#xe61e;</i>
+											<#if attachmentFile.title?? && attachmentFile.title?length gt 60>
+											${attachmentFile.title[0..60]}
+											<#else>
+											${attachmentFile.title!''}
+											</#if>
+											</a>
+											<span style="color:#aaaaaa;font-size:12px;">${(attachmentFile.filelength/1024.0)?string('###,###')}Kb</span>
+											</p>
+										</#if>
+										</#list>
+									</div>
+								</div>
+								</#if>
+								<div class="layui-card" id="commentsList">
+	                               <#include "/apps/business/ekm/knowledge/comments.html">
+	                           </div>
+								<#assign auth = userAuth.auth?split(',')>
+	                            <div class="layui-card" style="margin: 10px 0px 15px 0px;">
+	                            <div class="layui-card-header" style="line-height:30px;background: #FFFFFF;border-bottom: 1px solid #f6f6f6;font-size: 16px;height: 30px;padding: 10px;">回复
+		                            <span style="line-height:30px;margin-left: 20px; color:#c2c2c2;">评分：</span>
+		                            <div id="dorate"></div>
+	                            </div>
+	                            <div class="ukefu-workorders-content" style="height: 200px;">
+								<#if auth?seq_contains("comkw")  || user.superuser == true>
+	                            	<form class="layui-form" action="/agent/ekm/comments.html?knowledgeid=${knowledge.id!''}" method="post" data-toggle="ajax-form">
+	                            	<input type="hidden" id="rates" name="rate" value="4">
+	                            	<input type="hidden" name="own" value="<#if ispri??>pri</#if>">
+	                            	<div class="layui-input-inline" style="width: 100%;margin-left: 10px;">
+										<textarea name="content" id="content" placeholder="请输入评论内容" class="layui-textarea" style="height:100px;resize:none;"></textarea>
+									</div><br>
+									<div class="layui-input-block layui-input-right" style="margin-left: 10px;">
+							            <button class="layui-btn" lay-submit="" lay-filter="formDemo" >发表</button>
+							        </div>
+									</form>
+	                            <#else>
+	                            	<div style="text-align: center;">您无权限进行评论该条知识！</div>
+	                            </#if>
+									</div>
+	                            </div>
+	                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+
+    
+$(document).ready(function() {
+	layui.use('element',
+		    function() {
+		        var $ = layui.jquery,
+		        element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		    });
+	
+	$('#knowledgeDetailsTab li a').on("click" , function(){
+		$('#knowledgeDetailsTab li').removeClass("layui-this");
+		$(this).parent().addClass("layui-this");
+	});
+	
+});
+KindEditor.create('#content', {
+	themeType : 'simple',
+	width:"100%",
+	resizeType:0,
+	uploadJson : "/res/image/upload.html",
+	items : ['image', 'emoticons',  'link'],
+    allowFileManager : false,
+	fontsize:16
+});
+KindEditor.options.cssData = "body { font-size: 15px; font-family:'Microsoft Yahei', 'Helvetica', 'Simsun', 'Arial';}";
+$(".ukefu-select").select2({minimumResultsForSearch: Infinity});
+$(".ukefu-select-input").select2({tags:true});
+
+layui.use('rate', function(){
+    var rate = layui.rate;
+   
+    //渲染
+    rate.render({
+	    elem: '#rate'
+	    ,value: ${rate!'0'} //初始值
+	    ,half: true //开启半星
+	    ,readonly: true
+	  })
+});
+
+
+</script>
+<script type="text/javascript">
+
+function keyword(){
+	loadURL("/apps/ekm/knowledge/keyword.html?", "#keywordList") ;
+}
+    
+$(document).ready(function() {
+	layui.use('element',
+		    function() {
+		        var $ = layui.jquery,
+		        element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		    });
+	
+	$('#knowledgeDetailsTab li a').on("click" , function(){
+		$('#knowledgeDetailsTab li').removeClass("layui-this");
+		$(this).parent().addClass("layui-this");
+	});
+	
+	
+});
+KindEditor.create('#content', {
+	themeType : 'simple',
+	width:"100%",
+	resizeType:0,
+	uploadJson : "/res/image/upload.html",
+	items : ['emoticons',  'link'],
+    allowFileManager : false,
+	fontsize:16
+});
+KindEditor.options.cssData = "body { font-size: 15px; font-family:'Microsoft Yahei', 'Helvetica', 'Simsun', 'Arial';}";
+$(".ukefu-select").select2({minimumResultsForSearch: Infinity});
+$(".ukefu-select-input").select2({tags:true});
+
+layui.use('rate', function(){
+    var rate = layui.rate;
+    //渲染
+    rate.render({
+	    elem: '#dorate'
+	    ,value: 4.0 //初始值
+	    ,half: true //开启半星
+	    ,choose: function(value){
+	    	$("#rates").val(value);
+	      }
+	  });
+    <#if commentsList?? && commentsList.content?size gt 0>
+	<#list commentsList.content as comments>
+	 var rate_${comments.id!''} = layui.rate;
+	    //渲染
+	    rate_${comments.id!''}.render({
+		    elem: '#rate_${comments.id!''}'
+		    ,value: ${comments.rate?string("#.#")!'0'} //初始值
+		    ,half: true //开启半星
+		    ,readonly: true
+		  });
+	</#list>
+	</#if>
+});
+
+
+</script>

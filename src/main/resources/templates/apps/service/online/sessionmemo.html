@@ -1,0 +1,29 @@
+<div class="uk-layui-form">
+	<form class="layui-form uk-form" data-toggle="ajax-form" action="/service/sessionmemo/save.html" data-callback="updateMemo(data)" data-close="true">
+		<input type="hidden" name="userid" value="${userid}">
+		<input type="hidden" name="agentservice" value="${agentservice}">
+		<input type="hidden" name="channel" value="${channel}">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width:100px;">备注：</label>
+				<div class="layui-input-inline" style="position: relative;">
+					<textarea name="memo"  placeholder="请输入摘要内容" class="layui-textarea" style="height:200px;width:450px;resize:none;" >${agentService.memo!''}</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-button">
+			<div class="layui-button-block">
+				<button class="layui-btn" lay-submit lay-filter="hotmsgForm">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  form.render(); //更新全部
+});
+</script>

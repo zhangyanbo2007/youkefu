@@ -1,0 +1,52 @@
+<#if chatMessage.msgtype?? && chatMessage.msgtype == "image">
+	<a href="${(chatMessage.message!'')?no_esc}_original" target="_blank"><img src="${(chatMessage.message!'')?no_esc}" class="ukefu-media-image"></a>
+<#elseif chatMessage.msgtype?? && chatMessage.msgtype == "voice">
+	<p class="weixinAudio" id="voice_media_${chatMessage.id!''}" style="<#if chatMessage.duration?? && chatMessage.duration!= ''><#if chatMessage.duration gt 30>width:300px;<#else>width:${50+chatMessage.duration * 10}px;</#if><#else>width:50px</#if>">
+		<audio src="${chatMessage.message!''}" id="media" width="1" height="1" preload></audio>
+		<span id="audio_area" class="db audio_area" title="${chatMessage.expmsg!''}">
+			<span class="audio_wrp db">
+				<span class="audio_play_area">
+					<i class="icon_audio_default"></i>
+					<i class="icon_audio_playing"></i>
+				</span>
+				<span class="audio_length tips_global">${chatMessage.duration!''}秒</span>
+				<span id="audio_progress" class="progress_bar" style="width: 0%;"></span>
+			</span>
+		</span>
+	</p>
+	<#if chatMessage.expmsg??>
+	<div class="ukefu-asr">${chatMessage.expmsg!''}</div>
+	</#if>
+	<script type="text/javascript">
+		$('#voice_media_${chatMessage.id!''}').weixinAudio({
+			autoplay:false
+		});
+	</script>
+<#elseif chatMessage.msgtype?? && chatMessage.msgtype == "cooperation">
+	<a href='javascript:void(0)' onclick='acceptInvite("${chatMessage.message!''}" , "${chatMessage.attachmentid!''}")'>您收到一个协作邀请，点击进入协作</a>
+<#elseif chatMessage.msgtype?? && chatMessage.msgtype == "file">
+<div class="ukefu-message-file">
+	<div class="ukefu-file-icon">
+		<img src="/im/img/file.png">
+	</div>
+	<div class="ukefu-file-desc">
+		<a href="${chatMessage.message!''}" target="_blank">
+		<div>${chatMessage.filename!''}</div>
+		<div>${(chatMessage.filesize/1024!0)?string("###,###.###")}Kb</div>
+		</a>
+	</div>
+</div>
+<#else>
+	${(chatMessage.message!'')?no_esc}
+	<#if chatMessage.suggestmsg?? && chatMessage.suggestmsg!="">
+	<ul class="info-list">
+		<#list chatMessage.suggest as item>
+		<li class="ukefu-suggest-item">
+			<a href="javascript:void(0)" class="suggestitem" onclick="sendMessageTextWithID('${(item.title!'')?replace("'","")}' , '${item.id!''}')">
+				${item.title!''}
+			</a>
+		</li>
+		</#list>
+	</ul>
+	</#if>
+</#if>

@@ -1,0 +1,18 @@
+<#if contentList?? && contentList?size gt 0 && aiConfig?? && aiConfig.suggestnum?? && aiConfig.suggestnum gt 0>
+<#if aiConfig?? && contentList?size gt aiConfig.suggestnum>
+<div class="ukefu-suggest-change"><a href="javascript:void(0)" data-toggle="change">换一批</a></div>
+</#if>
+	<#list contentList as content>
+	<#if content_index!= 0 && aiConfig.suggestnum!=0 && content_index % aiConfig.suggestnum == 0>
+</ul>
+	</#if>
+	<#if content_index % aiConfig.suggestnum == 0>
+<ul class="ukefu-suggest-block" style="<#if content_index gt 0>display:none;</#if>">
+	</#if>
+	<li><a data-toggle="suggest" href="javascript:void(0)" data-id="${content.id!''}" data-content="${content.title!''}" >${content.title!''}</a></li>
+</#list>
+<#if (contentList?size % aiConfig.suggestnum) !=0 && contentList?size gt 0 >
+</ul>
+</#if>
+</#if>
+	

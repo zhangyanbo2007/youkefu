@@ -1,0 +1,100 @@
+<#include "/public/secfield.html">
+<div class="layui-side layui-bg-black">
+	<div class="layui-side-scroll">
+		<#include "/apps/setting/include/left.html">
+	</div>
+</div>
+<div class="layui-body">
+	<div class="col-lg-12">
+		<h1 class="site-h1" style="background-color:#FFFFFF;">
+			角色列表<#if calloutroleList?? && calloutroleList.content?size gt 0>（${calloutroleList.totalElements!''}）</#if>
+			<span style="float:right;">
+				<button class="layui-btn layui-btn-sm green" href="/setting/role/add.html" data-toggle="ajax" data-width="750" data-height="450" data-title="引入角色">
+					引入角色
+				</button>
+			</span>
+		</h1>
+		<div class="row" style="padding:5px;">
+			<div class="col-lg-12">
+				<table class="layui-table" lay-skin="line">
+				  <thead>
+					<tr>
+					  <th>角色名</th>
+					  <th>业务类型</th>
+					  <th>部门</th>
+					  
+					  <th style="white-space:nowrap;" nowrap="nowrap" width="1%">操作</th>
+					</tr> 
+				  </thead>
+				  <tbody>
+					<#if calloutroleList?? && calloutroleList.content?? && calloutroleList.content?size gt 0>
+					<#list calloutroleList.content as calloutrole>
+					
+					<tr>
+					  <td>
+				 		<#list roleList as role>
+				  
+				  			<#if role.id == calloutrole.roleid>${role.name!''}</#if>
+				  
+				 	 	</#list>
+					  </td>
+					  <td>
+					  	全局	
+					  </td>
+					  <td width="50%">
+					  	<#if calloutrole.organid??>
+					  		<#assign inx = 0>
+					  		<#list calloutrole.organid?split(",") as organid>
+					  		<#list organList as organ>
+					  			<#if organ.id == organid>
+					  			<#if inx gt 0>,</#if>
+					  			${organ.name!''}
+					  			<#assign inx = inx + 1>
+					  			<#break/>
+					  			</#if>
+					  		</#list>
+					  		</#list>
+					  		</#if>
+					  </td>
+					 
+					  <td style="white-space:nowrap;" nowrap="nowrap" width="1%">
+					  		<a href="/setting/role/organ/add.html?roleid=${calloutrole.id!''}" data-toggle="ajax" data-width="650" data-height="450" data-title="添加部门授权">
+					  			<i class="layui-icon">&#xe642;</i>
+					  			授权
+					  		</a>
+					  		<a href="/setting/role/delete.html?roleid=${calloutrole.id!''}" style="margin-left:10px;" data-toggle="tip" data-title="请确认是否删除该角色授权记录？">
+					  			<i class="layui-icon" style="color:red;">&#x1006;</i>
+					  			删除
+					  		</a>
+					  </td>
+					 
+					</tr>
+					
+					</#list>
+					</#if>
+				  </tbody>
+				</table>
+			</div> 	   
+		</div>
+		<div class="row" style="padding:5px;">
+			<div class="col-lg-12" id="page" style="text-align:center;"></div>
+		</div>
+	</div>	
+</div>
+<script type="text/javascript">
+layui.use(['laypage', 'layer'], function(){
+	  var laypage = layui.laypage
+	  ,layer = layui.layer;
+	  laypage.render({
+			elem: 'page'
+			,pages: <#if calloutroleList??>${calloutroleList.totalPages}<#else>0</#if> //总页数
+			,curr:<#if calloutroleList??>${calloutroleList.number+1}<#else>0</#if>
+			,groups: 5 //连续显示分页数
+			,jump:function(data , first){
+				if(!first){
+					location.href = "/setting/role/index.html?p="+data.curr ;
+				}
+			}
+	   });
+	});
+</script>

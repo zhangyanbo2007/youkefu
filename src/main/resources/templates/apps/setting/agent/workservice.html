@@ -1,0 +1,232 @@
+<div class="layui-layout layui-layout-content">
+	<div class="layui-side layui-bg-black">
+		<div class="layui-side-scroll">
+		<#include "/apps/setting/include/left.html"/></div>
+	</div>
+	<div class="layui-body">
+		<div class="layui-side-scroll">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="site-h1" style="background-color:#FFFFFF;">
+							坐席服务日期设置<#if workServiceList??>（${workServiceList.totalElements!''}）</#if>
+							<span style="float:right;">
+								<button class="layui-btn layui-btn-sm green" href="/setting/workservice/add.html" data-toggle="ajax" data-width="700" data-height="450" data-title="添加新日期">
+									添加新日期
+								</button>
+							</span>
+						</h1>
+						<div class="row" style="padding:5px;">
+							<div class="col-lg-12">
+								<table class="layui-table" lay-skin="line">
+								  <colgroup>
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
+										<col width="1%">
+										<col>
+								  </colgroup>
+								  <thead>
+									<tr>
+									  <th>日期类型</th>
+									  <th>适用场景</th>
+									  <th>日期范围类型</th>
+									  <th>日期开始</th>
+									  <th>日期结束</th>
+									  <th>星期</th>
+									  <th style="white-space:nowrap;" nowrap="nowrap">操作</th>
+									</tr> 
+								  </thead>
+								  <tbody>
+									<#if workServiceList?? && workServiceList.content?? && workServiceList.content?size gt 0>
+									<#list workServiceList.content as work>
+									<tr>
+									  <td>
+									  	${uKeFuDic[work.timetype!''].name!''} 
+									  </td>
+									  <td>
+									  		<#if work.apply == 'webim'>
+									  			文字客服
+									  		<#elseif work.apply == 'sche'>
+									  			排班
+									  		</#if>
+									  </td>
+									  <td>
+										  	<#if work.scope == 'one'>
+										  		单天
+										  	<#elseif work.scope == 'more'>
+										  		范围
+										  	<#elseif work.scope == 'week'>
+										  		星期
+										  	</#if>
+									  </td>
+									  <td>
+									  		<#if work.scope == 'one' ||  work.scope == 'more'>
+									  			${work.begin!''}
+									  		</#if>
+									  </td>
+									  <td>
+									  		<#if work.scope == 'more'>
+									  			${work.end!''}
+									  		</#if>
+									  </td>
+									  <td>
+									  		<#if work.scope == 'week'>
+									  			
+									  			<#list work.week?split(',') as we>
+									  				<#assign inx = 0>
+									  				<#if we == '1'>
+									  					周一,
+									  				<#assign inx = inx + 1>
+									  				<#elseif we == '2'>
+									  					周二,
+									  				<#assign inx = inx + 1>
+									  				<#elseif we == '3'>
+									  					周三,
+									  				<#assign inx = inx + 1>
+									  				<#elseif we == '4'>
+									  					周四,
+									  				<#assign inx = inx + 1>
+									  				<#elseif we == '5'>
+									  					周五,
+									  				<#assign inx = inx + 1>
+									  				<#elseif we == '6'>
+									  					周六,
+									  				<#assign inx = inx + 1>
+									  				<#elseif we == '7'>
+									  					周日
+									  				<#assign inx = inx + 1>
+						  							<#break>
+									  				</#if>
+									  			</#list>
+									  			
+									  		</#if>
+									  </td>
+									  <td style="white-space:nowrap;" nowrap="nowrap">
+									  		<a href="/setting/workservice/edit.html?id=${work.id!''}" data-toggle="ajax" data-width="750" data-height="450" data-title="编辑日期">
+									  			<i class="layui-icon">&#xe642;</i>
+									  			编辑
+									  		</a>
+									  		<a href="/setting/workservice/delete.html?id=${work.id!''}" style="margin-left:10px;" data-toggle="tip" data-title="请确认是否删除该记录？">
+									  			<i class="layui-icon" style="color:red;">&#x1006;</i>
+									  			删除
+									  		</a>
+									  </td>
+									</tr>
+									</#list>
+									</#if>
+								  </tbody>
+								</table>
+							</div> 	   
+						</div>
+						<div class="row" style="padding:5px;">
+							<div class="col-lg-12" id="page" style="text-align:center;"></div>
+						</div>
+					</div>	
+				</div>
+		</div>
+	</div>
+</div>
+
+<script language="javascript"> 		
+	layui.use('form', function(){
+		var form = layui.form;
+		form.render('select'); //刷新select选择框渲染
+		form.on("checkbox(timeout)" , function(data){
+			if(data.elem.checked == true){
+				$('#timeout_tip').show();		
+			}else{
+				$('#timeout_tip').hide();
+			}
+		});
+		form.on("checkbox(hourcheck)" , function(data){
+			if(data.elem.checked == true){
+				$('#hourcheck_tip').show();		
+			}else{
+				$('#hourcheck_tip').hide();
+			}
+		});
+		form.on("checkbox(retimeout)" , function(data){
+			if(data.elem.checked == true){
+				$('#re_timeout_tip').show();		
+			}else{
+				$('#re_timeout_tip').hide();
+			}
+		});
+		form.on("checkbox(agentreplaytimeout)" , function(data){
+			if(data.elem.checked == true){
+				$('#agentreplay').show();		
+			}else{
+				$('#agentreplay').hide();
+			}
+		});
+		form.on("checkbox(servicetimeoutlimit)" , function(data){
+			if(data.elem.checked == true){
+				
+				$('#timeout_limit').show();		
+			}else{
+				
+				$('#timeout_limit').hide();
+			}
+		});
+		form.on("checkbox(quene)" , function(data){
+			if(data.elem.checked == true){
+				$('#quene_tip').show();		
+			}else{
+				
+				$('#quene_tip').hide();
+			}
+		});
+		form.on("checkbox(otherquickplay)" , function(data){
+			if(data.elem.checked == true){
+				$('#otherquickplay_op').show();		
+			}else{
+				
+				$('#otherquickplay_op').hide();
+			}
+		});
+		form.on("checkbox(satisfaction)" , function(data){
+			if(data.elem.checked == true){
+				$('#satisf_op').show();		
+			}else{
+				
+				$('#satisf_op').hide();
+			}
+		});
+	});
+	$('#wh_time_range').on("click" , function(){
+		var timerange = $("#wh_start_h").val()+":"+$("#wh_start_m").val()+"~"+$("#wh_end_h").val()+":"+$("#wh_end_m").val() ;
+		var id = "wh_"+ $("#wh_start_h").val()+$("#wh_start_m").val()+$("#wh_end_h").val()+$("#wh_end_m").val() ;
+		if($("#"+id).length == 0){
+			$('#workhours').append("<small id='"+id+"' class='ukefu-timerange layui-btn layui-btn-normal'>"+timerange+" <i class='layui-icon'>&#x1006;</i><input type='hidden' name='workinghours' value='"+timerange+"'/></small>");
+		}
+	});
+	$(document).on("click" , ".ukefu-timerange", function(){
+		var target = $(this);
+		var index = top.layer.confirm("请确认是否移除时间段？", {icon: 3, title:'提示'}, function(text, cindex){
+			top.layer.close(index);
+			$(target).remove() ;
+		});
+		
+	});
+	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  <#if msg??>
+		  top.layer.msg('${msg}');
+		  </#if>
+		  laypage.render({
+				elem: 'page'
+				,pages: <#if workServiceList??>${workServiceList.totalPages}<#else>0</#if> //总页数
+				,curr:<#if workServiceList??>${workServiceList.number+1}<#else>0</#if>
+				,groups: 5 //连续显示分页数
+				,jump:function(data , first){
+					if(!first){
+						location.href = "/setting/workservice/index.html?p="+data.curr;
+					}
+				}
+		   });
+		});	
+</script>

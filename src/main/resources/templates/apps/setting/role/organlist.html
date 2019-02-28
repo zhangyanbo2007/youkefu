@@ -1,0 +1,68 @@
+<table class="layui-table" lay-skin="line"  border="1"  id="ice">
+	<colgroup>
+		<col width="200px">
+		<col width="200px">
+	
+	</colgroup>
+    <thead>
+	<tr>
+	    <th style="width:3px;padding:10px 10px 10px 10px;" width="20">
+	    	<input style="display: inline;width: 15px;height: 15px;" width="20" type="checkbox" id="all" onclick="$('.ctxid').prop('checked' , $(this).prop('checked'));"/>
+	    </th>
+	    <th>部门名</th>
+	    <!-- <th nowrap="nowrap">分配数量</th> -->
+	</tr>
+    </thead>
+    <tbody>
+    <#assign inx = 0 >
+	<#if organList?? && currentorgan??>
+	    <#list organList as agent>
+		<#if agent.parent == currentorgan>
+		<#assign inx = inx + 1 >
+		<tr class="ukefu-agentstatus">
+		    <td width="1%">
+			<input type="checkbox" name="agentno" class="ctxid" value="${agent.id!''}" id="user_${agent.id}" style="display:block;width:15px;height:15px;">
+		    </td>
+		    <td width="89%">${agent.name!''}</td>
+		    <input type="hidden" id="name" name="cond" value="${agent.name!''}"/>
+		    <input type="hidden" id="organ" name="field" value="${agent.id!''}"/>
+		    <!-- <td width="10%" nowrap="nowrap">
+			<input class="ukefu-key layui-input" data-inx="${inx}" id="key_${inx}" type="text" autocomplete="off" id="disnum" name="value" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+		    </td> -->
+		</tr>
+		</#if>
+		    
+	    </#list>
+	</#if>
+    </tbody>
+</table>
+<script>
+	$(document).ready(function(){
+		$(".ukefu-key").on("keydown", function (e) {
+	        if (e.keyCode == 38) {
+	        	var inx = parseInt($(e.target).data("inx"))-1 ;
+	        	$("#key_"+inx).focus();
+	        }else if (e.keyCode == 40) {
+	        	var inx = parseInt($(e.target).data("inx"))+1 ;
+	        	$("#key_"+inx).focus();
+	        }
+	    });
+	});
+
+	$(document).ready(function(){
+		$('#temp').click(function(){
+			var ids = "";
+			$('.ctxid').each(function(){
+				if($(this).prop("checked")){
+					if(ids!=""){
+						ids += "&" ;
+					}
+					ids += "ids=" + $(this).val();
+				}
+			});
+			$('#temp').attr('href' , '/setting/role/organ/add/save.html?'+ids);
+			
+		});
+		
+	});	
+</script>

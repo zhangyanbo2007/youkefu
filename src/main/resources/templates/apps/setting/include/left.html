@@ -1,0 +1,96 @@
+<ul class="layui-nav layui-nav-tree" lay-filter="setting">
+<#if user?? && (user.roleAuthMap["A06_A01"]?? || user.usertype == "0") >
+	<li class="layui-nav-item layui-nav-itemed">
+		<a class="layui-nav-title" href="javascript:;">客服设置</a>
+		<dl class="layui-nav-child">
+			<#if user?? && (user.roleAuthMap["A06_A01_A01"]?? || user.usertype == "0") >
+			<dd <#if subtype?? && subtype == 'sessionconfig'>class="layui-this"</#if>>
+				
+				<a href="/setting/agent/index.html">对话设置</a>
+			</dd>
+			</#if>
+			<#if user?? && (user.roleAuthMap["A06_A01_A02"]?? || user.usertype == "0") >
+			<dd <#if subtype?? && subtype == 'blacklist'>class="layui-this"</#if>>
+				<a href="/setting/blacklist.html">黑名单</a>
+			</dd>
+			</#if>
+			<#if user?? && (user.roleAuthMap["A06_A01_A03"]?? || user.usertype == "0") >
+			<dd <#if subtype?? && subtype == 'workservice'>class="layui-this"</#if>>
+				<a href="/setting/workservice/index.html">坐席服务日期设置</a>
+			</dd>
+			</#if>
+			<#if user?? && (user.roleAuthMap["A06_A01_A04"]?? || user.usertype == "0") >
+			<dd class="<#if subtype?? && subtype == "role">layui-this</#if>">
+				<a href="/setting/role/index.html">角色授权</a>
+			</dd>
+			</#if>
+			<#if user?? && (user.roleAuthMap["A06_A01_A05"]?? || user.usertype == "0") >
+			<dd class="<#if subtype?? && subtype == "quickreply">layui-this</#if>">
+				<a href="/setting/quickreply/index.html">快捷回复</a>
+			</dd>
+			</#if>
+			<!-- 
+			<dd <#if subtype?? && subtype == 'acd'>class="layui-this"</#if>>
+				<a href="/setting/acd.html">ACD策略</a>
+			</dd>
+			 -->
+		</dl>
+	</li>
+</#if>
+<#if user?? && (user.roleAuthMap["A06_A10"]?? || user.usertype == "0") >
+	<li class="layui-nav-item layui-nav-itemed">
+		<a class="layui-nav-title" href="javascript:;">短信模板设置</a>
+		<dl class="layui-nav-child">
+			<#list smsTempletTypeList as smsTemplet>
+				<dd <#if sysDic?? && sysDic.id== smsTemplet.id>class="layui-this"</#if>>
+					<a  href="/setting/sms/index.html?tptype=${smsTemplet.id!''}">
+						${smsTemplet.name!''}
+					</a>
+				</dd>
+			</#list>
+		</dl>
+	</li>
+</#if>
+<#if user?? && (user.roleAuthMap["A06_A04"]?? || user.usertype == "0") >
+	<li class="layui-nav-item layui-nav-itemed">
+		<a class="layui-nav-title" href="javascript:;">会话服务类型设置</a>
+		<dl class="layui-nav-child">
+			<#list sessionType as session>
+				<dd <#if typeCode?? && typeCode == session.id>class="layui-this"</#if>>
+					<a  href="/setting/sessiontype/index.html?typeCode=${session.id!''}">
+						${session.name!''}
+					</a>
+				</dd>
+			</#list>
+		</dl>
+	</li>
+</#if>
+<#if user?? && (user.roleAuthMap["A06_A02"]?? || user.usertype == "0") >
+	<li class="layui-nav-item layui-nav-itemed">
+		<a class="layui-nav-title" href="javascript:;">广告位管理</a>
+		<dl class="layui-nav-child">
+			<#if advTypeList??>
+			<#list advTypeList as advDic>
+			<dd <#if advType?? && advDic.id == advType.id>class="layui-this"</#if>>
+				<a href="/setting/adv.html?adpos=${advDic.id!''}">${advDic.name!''}</a>
+			</dd>
+			</#list>
+			</#if>
+		</dl>
+	</li>
+</#if>
+<#if user?? && (user.roleAuthMap["A06_A03"]?? || user.usertype == "0") >
+	<li class="layui-nav-item layui-nav-itemed">
+		<a class="layui-nav-title" href="javascript:;">标签管理</a>
+		<dl class="layui-nav-child">
+			<#if tagTypeList??>
+			<#list tagTypeList as tagTypeDic>
+			<dd <#if tagType?? && tagType.code == tagTypeDic.code>class="layui-this"</#if>>
+				<a href="/setting/tag.html?code=${tagTypeDic.code!''}">${tagTypeDic.name!''}</a>
+			</dd>
+			</#list>
+			</#if>
+		</dl>
+	</li>
+</#if>
+</ul>

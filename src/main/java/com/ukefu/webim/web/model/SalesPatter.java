@@ -1,0 +1,186 @@
+package com.ukefu.webim.web.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "uk_spt_salespatter")
+@org.hibernate.annotations.Proxy(lazy = false)
+public class SalesPatter implements AiCallOutProcess{
+
+	/**
+	 * 话术表
+	 */
+	private static final long serialVersionUID = 1115593425069549681L;
+	
+	private String id ;
+	private String name;    //话术名称
+	private String type;    //话术类型
+	private String scene;   //话术适用场景（机器人呼出/坐席手动）
+	private String welword; //话术欢迎语（文字）
+	private String welvoice;//话术欢迎语ID（语音）
+	private String weltype; //话术欢迎语类型
+	private String endword; //话术结束语（文字）
+	private String endvoice;//话术结束语ID（语音）
+	private String endtype; //话术结束语类型
+	private String totalscore;//参考评分值
+	private String score;     //是否评分（0否1是）
+	private String memo;      //话术描述
+	private String orgi;      //租户ID
+	private String creater;   //创建人
+	private Date createtime;  //创建时间
+	private String updater;   //更新人
+	private Date updatetime;  //更新时间
+	
+	private String prostatus;//话术状态（0未发布/1发布）
+	private String sumscore;//总评分
+	private String description;//描述
+	
+	private String questionid;//开始问题id
+
+	@Id
+	@Column(length = 32)
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getScene() {
+		return scene;
+	}
+	public void setScene(String scene) {
+		this.scene = scene;
+	}
+	public String getWelword() {
+		return welword;
+	}
+	public void setWelword(String welword) {
+		this.welword = welword;
+	}
+	public String getWelvoice() {
+		return welvoice;
+	}
+	public void setWelvoice(String welvoice) {
+		this.welvoice = welvoice;
+	}
+	public String getWeltype() {
+		return weltype;
+	}
+	public void setWeltype(String weltype) {
+		this.weltype = weltype;
+	}
+	public String getEndword() {
+		return endword;
+	}
+	public void setEndword(String endword) {
+		this.endword = endword;
+	}
+	public String getEndvoice() {
+		return endvoice;
+	}
+	public void setEndvoice(String endvoice) {
+		this.endvoice = endvoice;
+	}
+	public String getEndtype() {
+		return endtype;
+	}
+	public void setEndtype(String endtype) {
+		this.endtype = endtype;
+	}
+	public String getTotalscore() {
+		return totalscore;
+	}
+	public void setTotalscore(String totalscore) {
+		this.totalscore = totalscore;
+	}
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
+	}
+	public String getMemo() {
+		return memo;
+	}
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+	public String getOrgi() {
+		return orgi;
+	}
+	public void setOrgi(String orgi) {
+		this.orgi = orgi;
+	}
+	public String getCreater() {
+		return creater;
+	}
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+	public Date getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+	public String getUpdater() {
+		return updater;
+	}
+	public void setUpdater(String updater) {
+		this.updater = updater;
+	}
+	public Date getUpdatetime() {
+		return updatetime;
+	}
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
+	}
+	public String getProstatus() {
+		return prostatus;
+	}
+	public void setProstatus(String prostatus) {
+		this.prostatus = prostatus;
+	}
+	public String getSumscore() {
+		return sumscore;
+	}
+	public void setSumscore(String sumscore) {
+		this.sumscore = sumscore;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getQuestionid() {
+		return questionid;
+	}
+	public void setQuestionid(String questionid) {
+		this.questionid = questionid;
+	}
+	
+	
+}

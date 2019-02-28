@@ -1,0 +1,32 @@
+<div class="uk-layui-form">
+	<form class="layui-form uk-form" action="/admin/metadata/updatesql.html">
+		<input type="hidden" name="id" value="${metadata.id!''}">
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:50px;">名称：</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" value="${metadata.name!''}"
+					required lay-verify="required" placeholder="名称"
+					autocomplete="off" class="layui-input" style="width:460px;">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label" style="width:50px;">SQL：</label>
+			<div class="layui-input-inline">
+				<textarea name="datasql" placeholder="请输入内容" class="layui-textarea" style="resize:none;width:460px;height:200px;">${metadata.datasql!''}</textarea>
+			</div>
+		</div>
+		<div class="layui-form-button">
+			<div class="layui-button-block">
+				<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+  form.render(); //更新全部
+});
+</script>

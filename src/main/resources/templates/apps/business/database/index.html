@@ -1,0 +1,93 @@
+<div class="layui-side layui-bg-black">
+	<div class="layui-side-scroll">
+		<#include "/admin/include/left.html">
+	</div>
+</div>
+<div class="layui-body">
+	<div class="layui-side-scroll">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="site-h1" style="background-color:#FFFFFF;">
+					数据源列表<#if databaseList??>（${databaseList.totalElements!''}）</#if>
+					<span style="float:right;">
+						<button class="layui-btn layui-btn-sm green" href="/apps/database/add.html" data-toggle="ajax" data-width="550" data-height="450" data-title="创建新数据源">
+							创建新数据源
+						</button>
+					</span>
+				</h1>
+				<div class="row" style="padding:5px;">
+					<div class="col-lg-12">
+						<table class="layui-table" lay-skin="line">
+						  <colgroup>
+								<col width="10%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
+								<col width="1%">
+						  </colgroup>
+						  <thead>
+							<tr>
+							  <th>名称</th>
+							  <th>数据库类型</th>
+							  <th>账号</th>
+							  <th>创建时间</th>
+							  <th style="white-space:nowrap;" nowrap="nowrap">操作</th>
+							</tr> 
+						  </thead>
+						  <tbody>
+							<#if databaseList?? && databaseList??>
+							<#list databaseList.content as database>
+							<tr>
+							  <td>
+									${database.name!''}
+							  </td>
+							  <td>${database.databasetype!''}</td>
+							  <td>${database.account!''}</td>
+							  <td>${database.createtime?string("yyyy-MM-dd HH:mm:ss")}</td>
+							  <td style="white-space:nowrap;" nowrap="nowrap">
+							  		<a href="/apps/database/test.html?id=${database.id!''}" data-toggle="load" data-target="#tempdiv">
+							  			<i class="layui-icon">&#xe642;</i>
+							  			测试
+							  		</a>
+							  		<a href="/apps/database/edit.html?id=${database.id!''}" data-toggle="ajax"  data-width="550" data-height="450" data-title="编辑数据源">
+							  			<i class="layui-icon">&#xe642;</i>
+							  			编辑
+							  		</a>
+							  		<a href="/apps/database/delete.html?id=${database.id!''}" style="margin-left:10px;" data-toggle="tip"  title="请确认是否删除邮件服务器？" >
+							  			<i class="layui-icon" style="color:red;">&#x1006;</i>
+							  			删除
+							  		</a>
+							  </td>
+							</tr>
+							</#list>
+							</#if>
+						  </tbody>
+						</table>
+					</div> 	   
+				</div>
+				<div class="row" style="padding:5px;">
+					<div class="col-lg-12" id="page" style="text-align:center;"></div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+<div id="tempdiv"></div>
+<script>
+	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  
+		  laypage.render({
+				elem: 'page'
+				,pages: <#if databaseList??>${databaseList.totalPages}<#else>0</#if> //总页数
+				,curr:<#if databaseList??>${databaseList.number+1}<#else>0</#if>
+				,groups: 5 //连续显示分页数
+				,jump:function(data , first){
+					if(!first){
+						location.href = "/apps/database/index.html?p="+data.curr ;
+					}
+				}
+		   });
+		});
+</script>

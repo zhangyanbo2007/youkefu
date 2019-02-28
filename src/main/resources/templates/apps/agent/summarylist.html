@@ -1,0 +1,51 @@
+<div class="box">
+	<div class="box-title">
+		<h1 class="site-h1" style="background-color:#EEEEEE;">
+			服务小结
+			<div style="float:right;">
+				<button class="layui-btn layui-btn-sm" href="/agent/summary/add.html?userid=${curagentuser.userid!''}&agentserviceid=${curagentuser.agentserviceid!''}&agentuserid=${curagentuser.id}" data-toggle="ajax" title="新建服务小结" data-width="950" data-height="500"><i class="kfont">&#xe65c;</i>服务小结</button>	
+			</div>
+		</h1>
+	</div>
+	<div class="box-body" style="padding:0px 10px;">
+		<ul id="workOrdersPages">
+			<#if summaryList??>
+			<#list summaryList.content as summary>
+			<li class="ukefu-workorders-list-item">
+				<a href="/agent/summary/edit.html?userid=${curagentuser.userid!''}&agentserviceid=${curagentuser.agentserviceid!''}&agentuserid=${curagentuser.id}&id=${summary.id!''}" data-toggle="ajax" data-width="950" data-height="500" data-title="编辑服务小结">
+				<div class="ukefu-workorders-block">
+					服务类型：<#if tagsSummary??>
+						<#list tagsSummary as tag>
+						<#if summary?? && summary.servicetype?? && summary.servicetype?index_of(tag.id) gte 0>${tag.tag!''}</#if>
+						</#list>
+					</#if>
+				</div>
+				<div class="ukefu-workorders-block">
+					预约状态：<#if summary?? && summary.reservation>是
+					<#else>否
+					</#if>
+				</div>
+				<div class="ukefu-workorders-block">
+					预约方式：<#if summary?? && summary.reservation>${uKeFuDic[summary.reservtype!''].name!''}<#else>无</#if>
+				</div>
+				<div class="ukefu-workorders-block">
+						预约时间：<#if summary?? && summary.reservation && summary.reservtime??>${summary.reservtime?string('yyyy-MM-dd')}<#else>无</#if>
+				</div>
+				<div class="ukefu-workorders-block">
+						创建时间：<#if summary?? && summary.createtime??>${summary.createtime?string("yyyy-MM-dd HH:mm:ss")}</#if>
+				</div>
+				<div class="ukefu-workorders-block">
+					服务小结：<#if summary.summary?length gte 30>
+						${summary.summary[0..30]?no_esc}...
+					<#else>
+						${(summary.summary!'')?no_esc}
+					</#if>
+					</div>
+				</a>
+			</li>
+			</#list>
+			</#if>
+		</ul>
+	</div>
+</div>
+

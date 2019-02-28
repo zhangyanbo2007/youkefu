@@ -1,0 +1,128 @@
+<div class="layui-layout layui-layout-content">
+	<div class="layui-side layui-bg-black">
+		<div class="layui-side-scroll">
+		<#include "/apps/setting/include/left.html"/></div>
+	</div>
+	<div class="layui-body">
+		<div class="layui-side-scroll">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="site-h1" style="background-color:#FFFFFF;">
+						${sessiontype.name} 下的类型<#if sessionTypeList??>（${sessionTypeList.totalElements!''}）</#if>
+						<span style="float:right;">
+							<button class="layui-btn layui-btn-sm green" href="/setting/sessiontype/sessionitem/add.html?id=${sessiontype.id!''}&typeCode=${typeCode!''}" data-toggle="ajax" data-width="550" data-height="450" data-title="创建新字典项">
+								创建新类型
+							</button>
+							
+							<button class="layui-btn layui-btn-sm green" href="/setting/sessiontype/sessionitem/batadd.html?id=${sessiontype.id!''}&typeCode=${typeCode!''}" data-toggle="ajax" data-width="750" data-title="创建新字典项">
+								批量创建类型
+							</button>
+						</span>
+					</h1>
+					<div class="row" style="padding:5px;">
+						<div class="col-lg-12">
+							<table class="layui-table" lay-skin="line">
+							  <colgroup>
+									<col width="20%">
+									<col width="10%">
+									<col width="10%">
+									<col width="1%">
+								<col>
+							  </colgroup>
+							  <#if sessiontype?? && sessiontype.ctype?? >
+								  <thead>
+									<tr>
+									  <th>名称</th>
+									  <th>代码</th>
+									  <th>说明</th>
+									  <th style="white-space:nowrap;" nowrap="nowrap">操作</th>
+									</tr> 
+								  </thead>
+								  <tbody>
+									<#if sessionTypeList?? && sessionTypeList.content??>
+									<#list sessionTypeList.content as ses>
+									<tr>
+									  <td>
+										  <a href="/setting/sessiontype/sessionitem.html?id=${ses.id!''}&dicid=${ses.id!''}&typeCode=${typeCode!''}">${ses.name!''}</a>
+									  </td>
+									  <td>${ses.code!''}</td>
+									  <td>${ses.description!''}</td>
+									  <td style="white-space:nowrap;" nowrap="nowrap">
+											<a href="/setting/sessiontype/sessionitem/edit.html?id=${ses.id!''}&p=${sessionTypeList.number+1}&typeCode=${typeCode!''}" data-width="550" data-height="450" data-toggle="ajax" title="编辑${ses.name!''}">
+												<i class="layui-icon">&#xe642;</i>
+												编辑
+											</a>
+											<a href="/setting/sessiontype/sessionitem/delete.html?id=${ses.id!''}&p=${sessionTypeList.number+1}&typeCode=${typeCode!''}" data-toggle="tip" data-title="删除字典项同时会删除字典项下的所有子项，请确认是否删除字典项“${ses.name!''}”？" title="删除${ses.name!''}">
+												<i class="layui-icon" style="color:red;">&#x1006;</i>
+												删除
+											</a>
+									  </td>
+									</tr>
+									</#list>
+									</#if>
+								  </tbody>
+							  <#else>
+								  <thead>
+									<tr>
+									  <th>名称</th>
+									  <th>代码</th>
+									  <th>说明</th>
+									  <th style="white-space:nowrap;" nowrap="nowrap">操作</th>
+									</tr> 
+								  </thead>
+								  <tbody>
+									<#if sessionTypeList?? && sessionTypeList.content??>
+									<#list sessionTypeList.content as dic>
+									<tr>
+									  <td>
+										  <a href="/setting/sessiontype/sessionitem.html?id=${dic.id!''}&dicid=${dic.id!''}&typeCode=${typeCode!''}">${dic.name!''}</a>
+									  </td>
+									  <td>${dic.code!''}</td>
+									  <td>${dic.description!''}</td>
+									  <td style="white-space:nowrap;" nowrap="nowrap">
+											<a href="/setting/sessiontype/sessionitem/edit.html?id=${dic.id!''}&p=${sessionTypeList.number+1}&typeCode=${typeCode!''}" data-width="550" data-height="450" data-toggle="ajax" title="编辑${dic.name!''}">
+												<i class="layui-icon">&#xe642;</i>
+												编辑
+											</a>
+											<a href="/setting/sessiontype/sessionitem/delete.html?id=${dic.id!''}&p=${sessionTypeList.number+1}&typeCode=${typeCode!''}" data-toggle="tip" data-title="删除字典项同时会删除字典项下的所有子项，请确认是否删除字典项“${dic.name!''}”？" title="删除${dic.name!''}">
+												<i class="layui-icon" style="color:red;">&#x1006;</i>
+												删除
+											</a>
+									  </td>
+									</tr>
+									</#list>
+									</#if>
+								  </tbody>
+							  </#if>
+							</table>
+						</div> 	   
+					</div>
+					<div class="row" style="padding:5px;">
+						<div class="col-lg-12" id="page" style="text-align:center;"></div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  <#if msg??>
+		  top.layer.msg('${msg}');
+		  </#if>
+		  laypage.render({
+				elem: 'page'
+				,pages: <#if sysDicList??>${sysDicList.totalPages}<#else>0</#if> //总页数
+				,curr:<#if sysDicList??>${sysDicList.number+1}<#else>0</#if>
+				,groups: 5 //连续显示分页数
+				,jump:function(data , first){
+					if(!first){
+						location.href = "/setting/sessiontype/sessionitem/index.html?p="+data.curr +"&typeCode=${typeCode!''}";
+					}
+				}
+		   });
+		});
+</script>

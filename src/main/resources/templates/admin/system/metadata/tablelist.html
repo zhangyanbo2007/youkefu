@@ -1,0 +1,68 @@
+<div class="uk-layui-form" style="overflow-x: hidden;">
+	<form class="layui-form uk-form" name="contactsSearch" action="/admin/metadata/imptbsave.html" method="post">
+		<input type="hidden" name="role" value="${role.id!''}">
+		<div class="row">
+			<div class="co-lg-12" style="width: 100%">
+				<div class="box default-box" >
+					<table class="layui-table" lay-skin="line">
+					  <thead>
+					  	<#if tablesList?? && tablesList?size gt 0 >
+						<tr>
+							<th>
+							  <input type="checkbox" id="ischange" lay-filter="ischange"/>
+						  	</th>
+						  	<th >元数据名称<#if tablesList??>（${tablesList?size!''}）<#else>（0）</#if></th>
+						</tr> 
+						</#if>
+					  </thead>
+					  <tbody class="topic_item">
+						<#if tablesList?? && tablesList?size gt 0 >
+						<#list tablesList as table>
+						<tr>
+						  <td style="width:1%;">
+							<input type="checkbox" class="ids" name="tables"  value="${table.name!''}" <#if metadataTable?index_of(table.name) gte 0>checked="checked"</#if>/>
+						  </td>
+						  <td>${table.name!''}</td>
+						</tr>
+						</#list>
+						<#else>
+							<div class="ukefu-empty" style="height: 220px;">
+								<i class="layui-icon"></i>
+								<div style="">
+									还没有元数据记录
+								</div>
+							</div>
+						</#if>
+					  </tbody>
+					</table>
+					<div class="layui-form-button" >
+						<div class="layui-button-block">
+							<button class="layui-btn" lay-submit lay-filter="contactsForm" id="temp">立即提交</button>
+							<button class="layui-btn layui-btn-primary" onclick="layer.closeAll();">关闭</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" shtyle="padding:5px;">
+			<div class="col-lg-12" id="page" style="text-align:center;"></div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+layui.use('form', function(){
+	var form = layui.form;
+	var arr = new Array();
+	form.render(); //更新全部
+	form.on('checkbox(ischange)',function(data){
+		var a = data.elem.checked;
+		if(a == true){
+			$(".ids").prop("checked", true);
+			form.render('checkbox');
+		}else{
+			$(".ids").prop("checked", false);
+			form.render('checkbox');
+		}
+	});
+});
+</script>

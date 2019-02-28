@@ -1,0 +1,96 @@
+<#include "/public/macro.html">
+<form class="layui-form" action="/setting/role/organ/add/save.html" method="post" >
+	<input type="hidden" name="roleid" value="${roleid!''}">
+	<div class="row" style="height:351px;">
+		<div class="col-lg-3" style="overflow-y:auto;">
+			<div class="row" style="padding:5px;">
+				<div class="col-lg-12" >
+					<ul id="organTree" class="ztree"></ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-9" style="border-left:1px solid #dedede;">
+			<div class="box">
+				<div class="box-body" style="padding:0px 2px;position: relative;height:351px;overflow-y:auto;" id="AgentList">
+					<#include "/apps/setting/role/organlist.html">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="layui-colla-item">
+		<div class="layui-colla-content layui-show">
+			<div class="layui-inline uckefu-inline" style="margin-left: 30px;">
+				<label class="layui-form-label">业务类型：</label>
+				<div class="layui-input-block" style="width:450px;">
+					<input type="radio" name="bustype" value="callout" title="电销" checked>
+					<input type="radio" name="bustype" value="temp" title="回访"  >
+					<input type="radio" name="bustype" value="temp" title="联系人" >
+			</div>
+			</div>	
+		</div>	
+	</div>	 -->
+	<div class="layui-form-button">
+		<div class="layui-button-block">
+			<button class="layui-btn" lay-submit lay-filter="contactsForm">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary" onclick="layer.close(layer.index);">关闭</button>
+		</div>
+	</div>
+</form>
+<script>
+	$('.ukefu-agentstatus td:not(:last-child)').on("click" , function(){
+		$('.ctxid').prop("checked" , false);
+		if($(this).parent().find("input").prop("checked")){
+			$(this).parent().find("input").prop("checked" , false);
+		}else{
+			$(this).parent().find("input").prop("checked" , true);
+		}
+	});
+</script>
+<link rel="stylesheet" href="/js/ztree/zTreeStyle/zTreeStyle.css">
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/ztree/jquery.ztree.all.min.js"></script>
+<SCRIPT type="text/javascript">
+	$(function(){
+		loadURL("/setting/role/organ.html?organ=${organData.id!''}" , "#AgentList") ;
+	});
+	var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			onClick: onClick
+		}
+	};
+	
+	function onClick(e, treeId, treeNode) {
+		loadURL("/setting/role/organ.html?organ="+treeNode.id , "#AgentList") ;
+	}
+
+	var zNodes =[
+	    { id:'0', pId:'00', name:"组织机构", open:true , topic : false}
+	    <#if organList??>
+	    <#list organList as organ>
+	    ,{ id:'${organ.id!''}', pId:'${organ.parent!'0'}', name:"${organ.name!''}", open:true , topic : true ,  <#if organ.area?? && organ.area != "">icon:"/images/area.png" <#else>icon:"/images/dept.png"</#if> }
+	    </#list>
+	    </#if>
+	];
+	
+	$(document).ready(function(){
+		var ztree = $.fn.zTree.init($("#organTree"), setting, zNodes);
+		<#if organData??>
+		var node = ztree.getNodeByParam('id', '${organData.id!''}');//获取id为1的点  
+		ztree.selectNode(node);//选择点  
+		</#if>
+	});
+	
+</SCRIPT>
+<script>
+	layui.use('form', function() {
+		var form = layui.form;
+		form.render(); //更新全部
+		     
+	});
+</script>

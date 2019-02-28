@@ -1,0 +1,146 @@
+<div class="uk-layui-form" >
+	<form class="layui-form uk-form" action="/setting/workservice/add/save.html" >
+		<div class="layui-form-item">
+		    <label class="layui-form-label">日期类型：</label>
+		    <div class="layui-input-inline" style="width: 340px;">
+		      	<select id="timetype" name="timetype">
+		      		<#if workDateList??>
+	      				<option value="">请选择日期类型</option>
+		      			<#list workDateList as work>
+		      				<option value="${work.id}">${work.name!''}</option>
+		      			</#list>
+		      		</#if>
+		      	</select>
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">适用场景：</label>
+		    <div class="layui-input-inline" style="width: 340px;">
+		      	<select id="apply" lay-filter="apply" name="apply">
+	      				<option value="">请选择适用场景</option>
+		      			<option value="webim">文字客服</option>
+		      			<option value="sche">排班</option>
+		      	</select>
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">日期范围：</label>
+		    <div class="layui-input-inline" style="width: 340px;">
+		      	<select id="scope" lay-filter="scope" name="scope">
+	      				<option value="">请选择日期范围</option>
+		      			<option value="one">单天</option>
+		      			<option value="more">范围</option>
+		      			<option value="week">星期</option>
+		      	</select>
+		    </div>
+		</div>
+		<div class="layui-form-item oneday">
+			<label class="layui-form-label">单天：</label>
+			<div class="layui-input-inline" style="width: 340px;">
+				<input type="text" name="begin" id="getdate1" readOnly="readOnly"  autocomplete="off"
+					class="layui-input">
+				<i class="layui-icon" style="position: absolute;right: 3px;top: 6px;font-size: 25px;">&#xe637;</i>
+			</div>
+		</div>
+		<div class="layui-form-item moreday">
+			<label class="layui-form-label" >日期范围：</label>
+			<div class="layui-input-inline" style="width: 140px;">
+				<input type="text" name="mbegin" id="getdate2" readOnly="readOnly"  autocomplete="off"  
+					class="layui-input">
+				<i class="layui-icon" style="position: absolute;right: 3px;top: 6px;font-size: 25px;">&#xe637;</i>
+			</div>
+			<label class="layui-form-label" style="width: 10px;">～</label>
+			<div class="layui-input-inline" style="width: 140px;margin-left: 20px;">
+				<input type="text" name="mend" id="getdate3" readOnly="readOnly"  autocomplete="off"
+					class="layui-input">
+				<i class="layui-icon" style="position: absolute;right: 3px;top: 6px;font-size: 25px;">&#xe637;</i>
+			</div>
+		</div>
+		<div class="layui-form-item week">
+				<div class="layui-inline">
+					<label class="layui-form-label">星期：</label>
+					<div class="layui-input-inline" style="width:430px;">
+						<div id="runWeekTime_div" style="width: 373px; display: block;">
+							<input name="week" value="1" lay-skin="primary" id="runDates2" type="checkbox" title="周一"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周一</span><i class="layui-icon layui-icon-ok"></i></div>
+							<input name="week" value="2" lay-skin="primary" id="runDates3" type="checkbox" title="周二"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周二</span><i class="layui-icon layui-icon-ok"></i></div>
+							<input name="week" value="3" lay-skin="primary" id="runDates4" type="checkbox" title="周三"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周三</span><i class="layui-icon layui-icon-ok"></i></div>
+							<input name="week" value="4" lay-skin="primary" id="runDates5" type="checkbox" title="周四"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周四</span><i class="layui-icon layui-icon-ok"></i></div>
+							<input name="week" value="5" lay-skin="primary" id="runDates6" type="checkbox" title="周五"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周五</span><i class="layui-icon layui-icon-ok"></i></div>
+							<input name="week" value="6" lay-skin="primary" id="runDates7" type="checkbox" title="周六"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周六</span><i class="layui-icon layui-icon-ok"></i></div>
+							<input name="week" value="7" lay-skin="primary" id="runDates1" type="checkbox" title="周日"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>周日</span><i class="layui-icon layui-icon-ok"></i></div>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		<div class="layui-form-button">
+		    <div class="layui-button-block">
+		    	<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+		    	<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		    </div>
+		</div>
+	</form>
+</div>
+ 
+<script >
+$(function(){
+	$(".moreday").hide();
+	$(".week").hide();
+});
+layui.use('element', function(){
+	var element = layui.element;
+});
+layui.use('laydate', function() {
+	var laydate = layui.laydate;
+
+	var date = {
+		min : '1950-01-01',
+		istoday : false
+	};
+
+	laydate.render({ 
+		elem: '#getdate1' ,
+		format:"yyyy-MM-dd"
+	});
+
+	laydate.render({ 
+		elem: '#getdate2',
+		format:"yyyy-MM-dd" 
+	});
+	laydate.render({ 
+		elem: '#getdate3',
+		format:"yyyy-MM-dd" 
+	});
+});
+layui.use('form', function(){
+  var form = layui.form;
+  form.render(); //更新全部
+  /* form.verify({
+	  repass: function(value){
+	    if(value != $('#password').val()){
+	      return '两次输入的密码不一致，请确认';
+	    }
+	  }
+	});  */ 
+   form.on('select(scope)', function(data){
+	   var va = data.value;
+		if(va == 'one'){
+			$('.oneday').show();
+			$('.moreday').hide();
+			$('.week').hide();
+			$('#getdate1').css("required","required");
+		}else if(va == 'more'){
+			$('.oneday').hide();
+			$('.moreday').show();
+			$('.week').hide();
+			$('#getdate2').css("required","required");
+			$('#getdate3').css("required","required");
+		}else if(va == 'week'){
+			$('.oneday').hide();
+			$('.moreday').hide();
+			$('.week').show();
+		}
+	});
+});
+
+</script>
